@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Đố vui Tiếng Anh lớp 2 🌈</title>
+<style>
+  :root {
+    box-sizing: border-box;
+    --pink: #ff7eb3;
+    --peach: #ffb38a;
+    --yellow: #ffd166;
+    --mint: #6fdcc8;
+    --sky: #7ec8ff;
+    --purple: #9d7bff;
+    --ink: #3d3558;
+    --muted: #7a7196;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    font-family: "Nunito", "Baloo 2", "Comic Sans MS", "Trebuchet MS", system-ui, sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at 10% 10%, #ffe4f1 0, transparent 40%),
+      radial-gradient(circle at 90% 20%, #d8f3ff 0, transparent 40%),
+      radial-gradient(circle at 50% 100%, #fff4d6 0, transparent 45%),
+      linear-gradient(160deg, #fdf2ff 0%, #eefcff 60%, #fffbe9 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 18px 14px 40px;
+  }
+  .deco {
+    position: fixed;
+    font-size: 26px;
+    opacity: 0.4;
+    pointer-events: none;
+    animation: float 7s ease-in-out infinite;
+    z-index: 0;
+    user-select: none;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-16px) rotate(10deg); }
+  }
+  .app { width: 100%; max-width: 580px; position: relative; z-index: 1; }
+
+  /* ---------- header ---------- */
+  .topbar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    min-height: 40px;
+  }
+  .chip {
+    font: inherit;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--purple);
+    background: #fff;
+    border: 2px solid #e6dcff;
+    border-radius: 999px;
+    padding: 6px 14px;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #e6dcff;
+    transition: transform 0.1s;
+  }
+  .chip:active { transform: translateY(2px); box-shadow: 0 1px 0 #e6dcff; }
+  header { text-align: center; margin: 4px 0 18px; }
+  .logo { font-size: 46px; animation: wiggle 2.8s ease-in-out infinite; display: inline-block; }
+  header h1 {
+    font-size: clamp(24px, 6vw, 34px);
+    margin: 4px 0 2px;
+    font-weight: 900;
+    background: linear-gradient(90deg, var(--pink), var(--purple), var(--sky));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  header p { margin: 0; font-size: 14px; color: var(--muted); font-weight: 700; }
+
+  /* ---------- cards ---------- */
+  .screen { display: none; }
+  .screen.active { display: block; animation: pop 0.38s cubic-bezier(.2,.9,.3,1.2); }
+  .card {
+    background: rgba(255,255,255,0.92);
+    border-radius: 30px;
+    padding: 24px 20px;
+    box-shadow: 0 12px 0 rgba(157,123,255,0.18), 0 22px 40px rgba(61,53,88,0.08);
+    border: 3px solid #fff;
+    backdrop-filter: blur(6px);
+  }
+  @keyframes pop {
+    from { transform: scale(0.94) translateY(8px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-8deg); }
+    75% { transform: rotate(8deg); }
+  }
+
+  /* ---------- start ---------- */
+  .mascot { font-size: 84px; text-align: center; display: block; animation: bob 2.4s ease-in-out infinite; }
+  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .start-title { text-align: center; font-size: 22px; font-weight: 900; margin: 6px 0 4px; }
+  .start-sub { text-align: center; color: var(--muted); font-weight: 700; margin: 0 0 18px; font-size: 15px; line-height: 1.5; }
+  label.lbl { display: block; font-weight: 800; margin-bottom: 8px; font-size: 15px; }
+  input.name {
+    width: 100%;
+    font: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    padding: 14px 16px;
+    border: 3px solid #eadfff;
+    border-radius: 18px;
+    background: #fdfaff;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input.name:focus { border-color: var(--purple); box-shadow: 0 0 0 4px rgba(157,123,255,0.18); }
+  .msg { min-height: 22px; text-align: center; font-weight: 800; margin: 12px 0 0; font-size: 15px; color: #e0517d; }
+
+  /* ---------- buttons ---------- */
+  .btn {
+    display: block;
+    width: 100%;
+    margin: 16px auto 0;
+    font: inherit;
+    font-weight: 900;
+    font-size: 18px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    border: none;
+    border-radius: 999px;
+    padding: 14px 24px;
+    cursor: pointer;
+    box-shadow: 0 6px 0 #7f5fe0;
+    transition: transform 0.1s, box-shadow 0.1s, filter 0.2s;
+  }
+  .btn:hover { filter: brightness(1.05); }
+  .btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #7f5fe0; }
+  .btn.ghost {
+    background: #fff;
+    color: var(--purple);
+    box-shadow: 0 6px 0 #e6dcff;
+    border: 3px solid #e6dcff;
+  }
+  .btn.ghost:active { box-shadow: 0 2px 0 #e6dcff; }
+  .btn.hide { display: none; }
+
+  /* ---------- quiz ---------- */
+  .progress-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; font-weight: 900; font-size: 14px; }
+  .progress { flex: 1; height: 16px; background: #f1ecff; border-radius: 999px; overflow: hidden; }
+  .progress-bar {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--pink), var(--yellow), var(--mint));
+    border-radius: 999px;
+    transition: width 0.45s ease;
+    position: relative;
+  }
+  .progress-bar::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    animation: shine 2s linear infinite;
+  }
+  @keyframes shine { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+  .score-pill {
+    background: var(--yellow);
+    color: var(--ink);
+    padding: 5px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+    box-shadow: 0 3px 0 #e8b640;
+  }
+  .qbox {
+    text-align: center;
+    background: linear-gradient(180deg, #f7f2ff, #fff);
+    border-radius: 24px;
+    padding: 18px 16px 16px;
+    margin-bottom: 18px;
+    border: 2px dashed #e0d4ff;
+    position: relative;
+  }
+  .qemoji { font-size: 60px; display: block; animation: wiggle 2.5s ease-in-out infinite; line-height: 1.1; }
+  .qtext { font-size: clamp(19px, 5vw, 23px); font-weight: 900; margin: 8px 0 0; line-height: 1.35; }
+  .qspeak {
+    margin-top: 10px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--purple);
+    background: #fff;
+    border: 2px solid #e6dcff;
+    border-radius: 999px;
+    padding: 6px 14px;
+    cursor: pointer;
+  }
+  .qspeak:active { transform: scale(0.96); }
+  .options { display: grid; gap: 12px; }
+  .opt {
+    font: inherit;
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--ink);
+    background: #fff;
+    border: 3px solid #eadfff;
+    border-radius: 20px;
+    padding: 14px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    text-align: left;
+    transition: transform 0.15s ease, border-color 0.2s, background 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .opt:hover { transform: translateY(-2px); border-color: var(--sky); }
+  .opt:active { transform: scale(0.98); }
+  .opt .lt { flex: 1; }
+  .spk {
+    font-size: 20px;
+    width: 40px; height: 40px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    background: #f3eeff;
+    flex-shrink: 0;
+    transition: transform 0.15s, background 0.2s;
+  }
+  .spk:hover { background: #e6dcff; transform: scale(1.1); }
+  .opt.correct { background: #dcfff0; border-color: #4fd39a; animation: bounceOk 0.5s; }
+  .opt.wrong { background: #ffe6ee; border-color: #ff7b98; animation: shake 0.4s; }
+  .opt.locked { cursor: default; }
+  .opt.locked:hover { transform: none; }
+  @keyframes bounceOk { 0%{transform:scale(1)} 40%{transform:scale(1.04)} 100%{transform:scale(1)} }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-7px)} 75%{transform:translateX(7px)} }
+  .feedback { min-height: 30px; text-align: center; font-weight: 900; margin-top: 14px; font-size: 18px; }
+  .good { color: #22a06b; }
+  .bad { color: #e0517d; }
+
+  /* ---------- result ---------- */
+  .result { text-align: center; }
+  .big { font-size: 90px; display: block; animation: bounce 1.1s ease infinite alternate; }
+  @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-12px); } }
+  .result h2 { color: var(--purple); margin: 8px 0 4px; font-size: 24px; font-weight: 900; }
+  .final { font-size: 22px; font-weight: 900; margin: 8px 0 2px; }
+  .stars { font-size: 34px; letter-spacing: 6px; margin: 8px 0; }
+  .rmsg { font-size: 16px; color: var(--muted); font-weight: 700; line-height: 1.5; }
+  .saved { margin-top: 12px; font-weight: 800; font-size: 15px; min-height: 22px; }
+
+  /* ---------- teacher ---------- */
+  .tbar { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .tbar h2 { margin: 0; font-size: 20px; font-weight: 900; color: var(--purple); }
+  .stats { font-size: 14px; font-weight: 800; color: var(--muted); margin-bottom: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { text-align: left; padding: 10px 6px; border-bottom: 2px solid #f1ecff; }
+  th { color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+  td.num { font-weight: 900; }
+  .del {
+    font: inherit; font-size: 13px; font-weight: 800;
+    color: #e0517d; background: #fff0f5; border: 2px solid #ffd0df;
+    border-radius: 999px; padding: 5px 10px; cursor: pointer;
+  }
+  .del:active { transform: scale(0.96); }
+  .empty { text-align: center; color: var(--muted); font-weight: 700; padding: 20px 0; }
+
+  .notice {
+    background: #fff8e1; border: 2px solid #ffe08a; color: #8a6400;
+    border-radius: 16px; padding: 10px 12px; font-size: 14px; font-weight: 700;
+    margin-bottom: 14px; display: none; line-height: 1.4;
+  }
+  .notice.show { display: block; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<span class="deco" style="top:5%;left:3%">⭐</span>
+<span class="deco" style="top:14%;right:4%;animation-delay:1s">🌈</span>
+<span class="deco" style="bottom:12%;left:5%;animation-delay:2s">🎈</span>
+<span class="deco" style="bottom:5%;right:6%;animation-delay:3s">🦋</span>
+<span class="deco" style="top:50%;left:1%;animation-delay:4s">☁️</span>
+
+<div class="app">
+  <div class="topbar">
+    <button class="chip hidden" id="teacherBtn">📊 Bảng điểm</button>
+    <button class="chip" id="voiceBtn">🔊 Giọng đọc: Bật</button>
+  </div>
+
+  <header>
+    <span class="logo">🌟</span>
+    <h1>Đố vui Tiếng Anh</h1>
+    <p>Lớp 2 · 50 câu hỏi · Nghe và chọn đáp án nhé!</p>
+  </header>
+
+  <!-- START -->
+  <section class="card screen active" id="sStart">
+    <span class="mascot">🦉</span>
+    <div class="start-title">Chào bé! Bé tên là gì nào?</div>
+    <p class="start-sub">Nhập tên của bé, rồi bấm Bắt đầu.<br>Mỗi bé chỉ được làm bài một lần thôi nha! 🎯</p>
+    <label class="lbl" for="nameInput">Tên của bé</label>
+    <input class="name" id="nameInput" type="text" maxlength="30" placeholder="Ví dụ: Tiến Đỉnh" autocomplete="off">
+    <div class="notice" id="startNotice"></div>
+    <button class="btn" id="startBtn">Bắt đầu thôi! 🚀</button>
+    <div class="msg" id="startMsg"></div>
+  </section>
+
+  <!-- ALREADY DONE -->
+  <section class="card screen result" id="sAlready">
+    <span class="big">🔒</span>
+    <h2>Bé đã làm bài rồi!</h2>
+    <div class="final" id="alreadyScore"></div>
+    <div class="rmsg">Bé chỉ được làm một lần thôi. Hỏi cô giáo nếu bé muốn làm lại nhé! 💌</div>
+    <button class="btn ghost" data-go="start">⬅️ Quay lại</button>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="card screen" id="sQuiz">
+    <div class="progress-wrap">
+      <span id="counter">Câu 1/50</span>
+      <div class="progress"><div class="progress-bar" id="bar"></div></div>
+      <span class="score-pill" id="scorePill">⭐ 0</span>
+    </div>
+    <div class="qbox">
+      <span class="qemoji" id="qEmoji">🐱</span>
+      <div class="qtext" id="qText"></div>
+      <button class="qspeak" id="qSpeak">🔊 Nghe lại câu hỏi</button>
+    </div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="btn hide" id="nextBtn">Câu tiếp theo ➡️</button>
+  </section>
+
+  <!-- RESULT -->
+  <section class="card screen result" id="sResult">
+    <span class="big" id="rEmoji">🏆</span>
+    <h2>Hoàn thành rồi!</h2>
+    <div class="final" id="rFinal"></div>
+    <div class="stars" id="rStars"></div>
+    <div class="rmsg" id="rMsg"></div>
+    <div class="saved" id="saveMsg"></div>
+    <button class="btn ghost" data-go="start">🏠 Về màn hình đầu</button>
+  </section>
+
+  <!-- TEACHER -->
+  <section class="card screen" id="sTeacher">
+    <div class="tbar">
+      <h2>📊 Bảng điểm của lớp</h2>
+      <button class="chip" id="refreshBtn">🔄 Tải lại</button>
+    </div>
+    <div class="notice" id="teacherNotice"></div>
+    <div class="stats" id="teacherStats"></div>
+    <div id="boardBox"></div>
+    <button class="btn ghost" data-go="start">⬅️ Quay lại</button>
+  </section>
+</div>
+
+<script>
+const QUESTIONS = [
+  ["🐱", "What is this?", ["cat", "dog", "fish"], 0],
+  ["🍎", "What is this?", ["banana", "apple", "orange"], 1],
+  ["🐘", "What is this?", ["elephant", "lion", "tiger"], 0],
+  ["☀️", "What color is the sun?", ["yellow", "black", "white"], 0],
+  ["🐟", "What is this?", ["fish", "bird", "frog"], 0],
+  ["🐸", "What is this?", ["frog", "duck", "cow"], 0],
+  ["🐮", "What is this?", ["pig", "cow", "horse"], 1],
+  ["🐷", "What is this?", ["pig", "sheep", "goat"], 0],
+  ["🐴", "What is this?", ["horse", "cow", "zebra"], 0],
+  ["🦆", "What is this?", ["chicken", "duck", "goose"], 1],
+  ["🍌", "What is this?", ["banana", "lemon", "corn"], 0],
+  ["🍇", "What is this?", ["grapes", "cherry", "strawberry"], 0],
+  ["🍉", "What is this?", ["orange", "watermelon", "peach"], 1],
+  ["🚗", "What is this?", ["bus", "car", "train"], 1],
+  ["🚌", "What is this?", ["bus", "truck", "bike"], 0],
+  ["🚲", "What is this?", ["car", "bike", "boat"], 1],
+  ["⚽", "What is this?", ["ball", "bag", "book"], 0],
+  ["📘", "What is this?", ["book", "bag", "pen"], 0],
+  ["✏️", "What is this?", ["pen", "pencil", "ruler"], 1],
+  ["📏", "What is this?", ["ruler", "eraser", "bag"], 0],
+  ["🎒", "What is this?", ["bag", "box", "cup"], 0],
+  ["🌙", "What is this?", ["moon", "star", "sun"], 0],
+  ["⭐", "What is this?", ["star", "moon", "cloud"], 0],
+  ["☁️", "What is this?", ["cloud", "snow", "rain"], 0],
+  ["🌧️", "What is this?", ["rain", "snow", "sun"], 0],
+  ["🏠", "What is this?", ["house", "school", "car"], 0],
+  ["🏫", "What is this?", ["school", "house", "shop"], 0],
+  ["👦", "Who is this?", ["boy", "girl", "man"], 0],
+  ["👧", "Who is this?", ["girl", "boy", "woman"], 0],
+  ["👵", "She is my ___.", ["grandmother", "brother", "dog"], 0],
+  ["👃", "What part of the body is this?", ["nose", "mouth", "ear"], 0],
+  ["👀", "What part of the body is this?", ["eyes", "ears", "hands"], 0],
+  ["👂", "What part of the body is this?", ["ear", "nose", "leg"], 0],
+  ["👄", "What part of the body is this?", ["mouth", "eye", "hair"], 0],
+  ["✋", "What part of the body is this?", ["hand", "foot", "head"], 0],
+  ["🦶", "What part of the body is this?", ["foot", "hand", "head"], 0],
+  ["➕", "What is 2 + 3?", ["five", "four", "six"], 0],
+  ["➕", "What is 4 + 1?", ["four", "five", "six"], 1],
+  ["➖", "What is 5 - 2?", ["three", "four", "two"], 0],
+  ["🔢", "What number comes after six?", ["five", "seven", "eight"], 1],
+  ["🐶", "How many legs does a dog have?", ["two", "four", "six"], 1],
+  ["📅", "Which day comes after Monday?", ["Sunday", "Tuesday", "Friday"], 1],
+  ["📅", "How many days are in a week?", ["five", "seven", "ten"], 1],
+  ["🗓️", "Which month comes after January?", ["February", "March", "December"], 0],
+  ["🦁", "Which word is an animal?", ["table", "lion", "pen"], 1],
+  ["🔵", "Which word is a color?", ["blue", "book", "dog"], 0],
+  ["🍓", "Which word is a fruit?", ["pen", "chair", "apple"], 2],
+  ["📏", "What is the opposite of 'big'?", ["small", "tall", "long"], 0],
+  ["🔥", "What is the opposite of 'hot'?", ["cold", "happy", "fast"], 0],
+  ["👋", "What do you say when you leave?", ["Hello", "Goodbye", "Thank you"], 1]
+];
+
+const TOTAL = QUESTIONS.length;
+const CORRECT_PRAISE = ["Great job!", "Well done!", "Excellent!", "Yes, that is right!"];
+const TRY_AGAIN = ["Good try! Keep going!", "Almost! You can do it!"];
+
+// ----- state -----
+let db = null, user = null, isTeacher = false, myId = null;
+let playerName = "", docKey = "";
+let index = 0, score = 0, answered = false, startedAt = 0;
+let voiceOn = true;
+let dbReady = false;
+
+const $ = id => document.getElementById(id);
+
+// ----- voice -----
+function cleanForSpeech(t) {
+  return t.replace(/[\p{Extended_Pictographic}\uFE0F]/gu, "").replace(/\s+/g, " ").trim();
+}
+function speak(text) {
+  if (!voiceOn || !("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(cleanForSpeech(text));
+  u.lang = "en-US";
+  u.rate = 0.85;
+  u.pitch = 1.15;
+  const voices = speechSynthesis.getVoices().filter(v => v.lang && v.lang.toLowerCase().startsWith("en"));
+  const pick = voices.find(v => /Google US English|Samantha|Zira|Aria|Female/i.test(v.name)) || voices[0];
+  if (pick) u.voice = pick;
+  speechSynthesis.speak(u);
+}
+if ("speechSynthesis" in window) speechSynthesis.getVoices();
+
+$("voiceBtn").onclick = () => {
+  voiceOn = !voiceOn;
+  $("voiceBtn").textContent = voiceOn ? "🔊 Giọng đọc: Bật" : "🔇 Giọng đọc: Tắt";
+  if (!voiceOn && "speechSynthesis" in window) speechSynthesis.cancel();
+};
+
+// ----- screens -----
+function show(id) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  $(id).classList.add("active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+document.querySelectorAll("[data-go]").forEach(b => {
+  b.onclick = () => {
+    if ("speechSynthesis" in window) speechSynthesis.cancel();
+    $("nameInput").value = "";
+    $("startMsg").textContent = "";
+    show("sStart");
+  };
+});
+
+// ----- helpers -----
+function makeKey(name) {
+  const s = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d").replace(/Đ/g, "d")
+    .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  return s || ("hs-" + Date.now());
+}
+
+// ----- connect to shared db (teacher controls) -----
+async function connect() {
+  const C = window.claude;
+  if (C && typeof C.use === "function") {
+    try { db = await C.use("db"); } catch (e) { db = null; }
+    try { user = await C.use("user"); } catch (e) { user = null; }
+  }
+  if (user) {
+    try { isTeacher = await user.isOwner(); } catch (e) { isTeacher = false; }
+    try { myId = await user.id(); } catch (e) { myId = null; }
+  }
+  dbReady = !!db;
+  if (db) $("teacherBtn").classList.remove("hidden");
+  if (!dbReady) {
+    $("startNotice").textContent = "Bảng điểm chưa kết nối, nên điểm sẽ chưa được lưu. Bé vẫn làm bài bình thường nhé!";
+    $("startNotice").classList.add("show");
+  }
+}
+
+// ----- start -----
+$("startBtn").onclick = async () => {
+  const name = $("nameInput").value.trim();
+  if (!name) {
+    $("startMsg").textContent = "Bé nhớ nhập tên trước nha! ✏️";
+    return;
+  }
+  playerName = name;
+  docKey = myId || "";
+  $("startMsg").textContent = "";
+
+  if (db && !myId) {
+    $("startMsg").textContent = "Chưa nhận diện được tài khoản, bé nhờ cô giáo kiểm tra quyền truy cập nhé.";
+    return;
+  }
+
+  if (db) {
+    $("startBtn").textContent = "Đang kiểm tra... ⏳";
+    try {
+      const snap = await db.doc("results/" + docKey).get();
+      if (snap.exists) {
+        const d = snap.data() || {};
+        $("alreadyScore").textContent = `${d.name || playerName} đã đạt ${d.score ?? "?"} / ${d.total ?? TOTAL} điểm`;
+        show("sAlready");
+        $("startBtn").textContent = "Bắt đầu thôi! 🚀";
+        return;
+      }
+    } catch (e) { /* if the check fails, let the student continue */ }
+    $("startBtn").textContent = "Bắt đầu thôi! 🚀";
+  }
+  startQuiz();
+};
+$("nameInput").addEventListener("keydown", e => { if (e.key === "Enter") $("startBtn").click(); });
+
+// ----- quiz -----
+function startQuiz() {
+  index = 0;
+  score = 0;
+  startedAt = Date.now();
+  show("sQuiz");
+  renderQ();
+}
+
+function renderQ() {
+  const [emoji, q, opts] = QUESTIONS[index];
+  answered = false;
+  $("counter").textContent = `Câu ${index + 1}/${TOTAL}`;
+  $("bar").style.width = `${(index / TOTAL) * 100}%`;
+  $("scorePill").textContent = `⭐ ${score}`;
+  $("qEmoji").textContent = emoji;
+  $("qText").textContent = q;
+  $("feedback").textContent = "";
+  $("feedback").className = "feedback";
+  $("nextBtn").classList.add("hide");
+
+  const box = $("options");
+  box.innerHTML = "";
+  opts.forEach((text, i) => {
+    const b = document.createElement("button");
+    b.className = "opt";
+    const label = document.createElement("span");
+    label.className = "lt";
+    label.textContent = text;
+    const spk = document.createElement("span");
+    spk.className = "spk";
+    spk.textContent = "🔊";
+    spk.title = "Nghe từ này";
+    spk.onclick = e => { e.stopPropagation(); speak(text); };
+    b.append(label, spk);
+    b.onclick = () => choose(i, b);
+    box.appendChild(b);
+  });
+
+  setTimeout(() => speak(q), 250);
+}
+
+function choose(i, btn) {
+  if (answered) return;
+  answered = true;
+  const correctIdx = QUESTIONS[index][3];
+  const buttons = [...$("options").children];
+  buttons.forEach(b => b.classList.add("locked"));
+  const fb = $("feedback");
+
+  if (i === correctIdx) {
+    btn.classList.add("correct");
+    score++;
+    const msg = CORRECT_PRAISE[Math.floor(Math.random() * CORRECT_PRAISE.length)];
+    fb.textContent = "🎉 " + msg;
+    fb.className = "feedback good";
+    speak(msg);
+  } else {
+    btn.classList.add("wrong");
+    buttons[correctIdx].classList.add("correct");
+    const msg = TRY_AGAIN[Math.floor(Math.random() * TRY_AGAIN.length)];
+    fb.textContent = "💪 " + msg + " Đáp án đúng là: " + QUESTIONS[index][2][correctIdx];
+    fb.className = "feedback bad";
+    speak(QUESTIONS[index][2][correctIdx]);
+  }
+  $("scorePill").textContent = `⭐ ${score}`;
+  $("nextBtn").textContent = index === TOTAL - 1 ? "Xem kết quả 🏁" : "Câu tiếp theo ➡️";
+  $("nextBtn").classList.remove("hide");
+}
+
+$("qSpeak").onclick = () => speak(QUESTIONS[index][1]);
+
+$("nextBtn").onclick = () => {
+  index++;
+  if (index >= TOTAL) finish();
+  else renderQ();
+};
+
+async function finish() {
+  if ("speechSynthesis" in window) speechSynthesis.cancel();
+  show("sResult");
+  $("bar").style.width = "100%";
+  const pct = score / TOTAL;
+  let emoji, msg;
+  if (pct === 1) { emoji = "👑"; msg = "Tuyệt vời! Bé đúng hết 50 câu luôn! 🎊"; }
+  else if (pct >= 0.8) { emoji = "🏆"; msg = "Giỏi quá! Bé học Tiếng Anh rất tốt! 🌟"; }
+  else if (pct >= 0.5) { emoji = "🥈"; msg = "Khá lắm! Ôn thêm một chút là bé sẽ giỏi hơn nữa! 📚"; }
+  else { emoji = "🌱"; msg = "Không sao cả! Cố gắng luyện tập thêm nhé! 💖"; }
+
+  $("rEmoji").textContent = emoji;
+  $("rFinal").textContent = `${playerName} đạt ${score} / ${TOTAL} điểm`;
+  const stars = Math.max(1, Math.round(pct * 5));
+  $("rStars").textContent = "⭐".repeat(stars) + "☆".repeat(5 - stars);
+  $("rMsg").textContent = msg;
+
+  const seconds = Math.round((Date.now() - startedAt) / 1000);
+  if (!db || !docKey) {
+    $("saveMsg").textContent = "⚠️ Chưa lưu được điểm (bảng điểm chưa kết nối).";
+    $("saveMsg").style.color = "#8a6400";
+    return;
+  }
+  $("saveMsg").textContent = "Đang lưu điểm... ⏳";
+  $("saveMsg").style.color = "var(--muted)";
+  try {
+    await db.doc("results/" + docKey).set({
+      name: playerName,
+      score,
+      total: TOTAL,
+      seconds,
+      date: new Date().toISOString()
+    });
+    $("saveMsg").textContent = "✅ Đã lưu điểm của bé!";
+    $("saveMsg").style.color = "#22a06b";
+  } catch (e) {
+    $("saveMsg").textContent = "❌ Không lưu được điểm, bé nhờ cô giáo kiểm tra nhé.";
+    $("saveMsg").style.color = "#e0517d";
+  }
+}
+
+// ----- teacher board -----
+$("teacherBtn").onclick = () => { show("sTeacher"); loadBoard(); };
+$("refreshBtn").onclick = () => loadBoard();
+
+async function loadBoard() {
+  const box = $("boardBox");
+  const notice = $("teacherNotice");
+  notice.classList.remove("show");
+  $("teacherStats").textContent = "";
+  box.innerHTML = "";
+  if (!db) {
+    notice.textContent = "Chưa kết nối được bảng điểm.";
+    notice.classList.add("show");
+    return;
+  }
+  box.innerHTML = '<div class="empty">Đang tải... ⏳</div>';
+  let rows = [];
+  try {
+    const snap = await db.collection("results").get();
+    rows = snap.docs.map(d => ({ key: d.id, ...(d.data() || {}) }));
+  } catch (e) {
+    box.innerHTML = "";
+    notice.textContent = "Không tải được bảng điểm. Thử bấm Tải lại nhé.";
+    notice.classList.add("show");
+    return;
+  }
+  box.innerHTML = "";
+  if (!rows.length) {
+    box.innerHTML = '<div class="empty">Chưa có bé nào làm bài 🌱</div>';
+    return;
+  }
+  rows.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+  const avg = rows.reduce((s, r) => s + (r.score ?? 0), 0) / rows.length;
+  $("teacherStats").textContent = `Số bé đã làm: ${rows.length} · Điểm trung bình: ${avg.toFixed(1)} / ${TOTAL}`;
+
+  const table = document.createElement("table");
+  const head = document.createElement("tr");
+  ["Tên", "Điểm", "Thời gian", ""].forEach(t => {
+    const th = document.createElement("th");
+    th.textContent = t;
+    head.appendChild(th);
+  });
+  table.appendChild(head);
+
+  rows.forEach(r => {
+    const tr = document.createElement("tr");
+    const tdName = document.createElement("td");
+    tdName.textContent = r.name || r.key;
+    const tdScore = document.createElement("td");
+    tdScore.className = "num";
+    tdScore.textContent = `${r.score ?? "?"} / ${r.total ?? TOTAL}`;
+    const tdTime = document.createElement("td");
+    const d = r.date ? new Date(r.date) : null;
+    tdTime.textContent = d ? d.toLocaleString("vi-VN") : "";
+    const tdAct = document.createElement("td");
+    const del = document.createElement("button");
+    del.className = "del";
+    del.textContent = "Cho làm lại";
+    del.onclick = async () => {
+      del.disabled = true;
+      try {
+        await db.doc("results/" + r.key).delete();
+        loadBoard();
+      } catch (e) {
+        del.disabled = false;
+        notice.textContent = "Không xóa được. Thử lại nhé.";
+        notice.classList.add("show");
+      }
+    };
+    if (isTeacher) tdAct.appendChild(del);
+    tr.append(tdName, tdScore, tdTime, tdAct);
+    table.appendChild(tr);
+  });
+  box.appendChild(table);
+}
+
+connect();
+</script>
+</body>
+</html>
